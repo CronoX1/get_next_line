@@ -1,0 +1,4 @@
+linea 1: hola, esto es un archivo
+linea 2: Esta es la segunda linea
+linea 3: Esta es la tercera linea
+linea 4: Aqui termina el archivo
