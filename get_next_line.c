@@ -13,58 +13,48 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-char    *get_next_line(int fd)
+char    *check_content(char *content)
 {
-    char    *content;
-    char    *final_content;
     int i;
+    char    *result;
 
     i = 0;
-    content = (char *)malloc(sizeof(char) * BUFFER_SIZE);
-    final_content = (char *)malloc(sizeof(char) * 100);
-    if (!content || !final_content)
-        return (NULL);
-    read(fd, content, BUFFER_SIZE);
-    while (ft_strchr(final_content, '\n') == 0)
+    while (content[i])
     {
-        read(fd, content, BUFFER_SIZE);
-        final_content = ft_strjoin(final_content, content);
-        free(content);
-        content = (char *)malloc(sizeof(char) * BUFFER_SIZE);
-    }
-    free(content);
-    while (final_content[i] && final_content[i] != '\n')
+        if (content[i] == '\n')
+        {
+            result = malloc(sizeof(char) * (i + 1));
+            if (result == NULL)
+                return (NULL);
+            result = ft_memmove(result, content, i);
+            printf("Result vale: %s\n", result);
+            return (result);
+        }
         i++;
-    final_content[i] = '\0';
-    if (!final_content)
-        return (NULL);
-    return (final_content);
+    }
+    return (NULL);
 }
 
-/*char    *get_next_line(int fd)
-{
-    char    *content;
-    char    *final_content;
-    int final_i;
-    static int  i = 0;
 
-    final_i = 0;
-    content = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-    final_content = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-    if (!content || !final_content)
-        return (NULL);
-    content[BUFFER_SIZE] = '\0';
-    final_content[BUFFER_SIZE] = '\0';
-    read(fd, content, BUFFER_SIZE);
-    while (content[i] && content[i] != '\n')
+char    *get_next_line(int fd)
+{
+    static char *content;
+    int content_read;
+
+    printf("Content vale: %s\n", content);
+    if (content == NULL)
+        content = malloc(sizeof(char) * BUFFER_SIZE + 1);
+    else
     {
-        final_content[final_i] = content[i];
-        i++;
-        final_i++;
+        printf("content mide: %d\n", ft_strlen(content));
+        content = ft_realloc(content, (sizeof(char) * (ft_strlen(content) + BUFFER_SIZE + 1)));
     }
-    i++;
-    free(content);
-    if (!final_content)
+    printf("Content2 vale: %s\n", content);
+    content_read = read(fd, &content[ft_strlen(content)], BUFFER_SIZE);
+    if (content_read == -1)
         return (NULL);
-    return (final_content);
-}*/
+    else if (content_read == 0)
+        return (content);
+    else
+        return (check_content(content));
+}

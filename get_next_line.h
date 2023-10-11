@@ -16,12 +16,9 @@
 #include <unistd.h>
 
 extern char *get_next_line(int fd);
-extern char	**ft_split(char const *s, char c);
-extern size_t	ft_strlen(const char *s);
-extern size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
-extern int ft_strchr(const char *s, int c);
-extern char *ft_read(int fd, char *content, int amount);
-extern char	*ft_strjoin(char const *s1, char const *s2);
+extern void	*ft_realloc(void *ptr, size_t newsize);
+extern void	*ft_memmove(void *dest, const void *src, size_t n);
 extern void	*ft_memcpy(void *dest, const void *src, size_t n);
+int	ft_strlen(char *c);
 
 #endif
