@@ -13,12 +13,12 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
+
 char    *check_content(char *content)
 {
-    int i;
+    static int i = 0;
     char    *result;
 
-    i = 0;
     while (content[i])
     {
         if (content[i] == '\n')
@@ -26,13 +26,12 @@ char    *check_content(char *content)
             result = malloc(sizeof(char) * (i + 1));
             if (result == NULL)
                 return (NULL);
-            result = ft_memmove(result, content, i);
-            printf("Result vale: %s\n", result);
+            result = ft_memcpy(result, content, i);
             return (result);
         }
         i++;
     }
-    return (NULL);
+    return (content);
 }
 
 
@@ -41,15 +40,10 @@ char    *get_next_line(int fd)
     static char *content;
     int content_read;
 
-    printf("Content vale: %s\n", content);
     if (content == NULL)
         content = malloc(sizeof(char) * BUFFER_SIZE + 1);
     else
-    {
-        printf("content mide: %d\n", ft_strlen(content));
-        content = ft_realloc(content, (sizeof(char) * (ft_strlen(content) + BUFFER_SIZE + 1)));
-    }
-    printf("Content2 vale: %s\n", content);
+        content = ft_realloc(content, (sizeof(char) * (ft_strlen(content) + BUFFER_SIZE)));
     content_read = read(fd, &content[ft_strlen(content)], BUFFER_SIZE);
     if (content_read == -1)
         return (NULL);
