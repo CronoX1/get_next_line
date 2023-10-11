@@ -45,35 +45,6 @@ void		*ft_realloc(void *ptr, size_t size)
 	return (new_ptr);
 }
 
-void	*ft_memmove(void *dest, const void *src, size_t n)
-{
-	size_t		i;
-	char		*new_dest;
-	const char	*new_src;
-
-	i = 0;
-	new_dest = dest;
-	new_src = src;
-	if (new_dest < new_src)
-	{
-		while (i < n)
-		{
-			new_dest[i] = new_src[i];
-			++i;
-		}
-	}
-	else if (new_dest > new_src)
-	{
-		i = n;
-		while (i > 0)
-		{
-			new_dest[i - 1] = new_src[i - 1];
-			--i;
-		}
-	}
-	return (dest);
-}
-
 int	ft_strlen(char *c)
 {
 	int	i;
@@ -82,4 +53,13 @@ int	ft_strlen(char *c)
 	while (c[i])
 		i++;
 	return (i);
+}
+
+int	ft_strchr(const char *s, int c)
+{
+	while (*s && *s != (char)c)
+		++s;
+	if (*s == (char)c)
+		return (1);
+	return (0);
 }

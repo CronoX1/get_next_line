@@ -7,7 +7,7 @@ RM = rm -f
 CC = gcc
 
 
-CFLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=10
+CFLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=100
 
 
 SRCs = get_next_line.c	\
