@@ -7,7 +7,11 @@ RM = rm -f
 CC = gcc
 
 
-CFLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=100
+CFLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=1024 $(SANITIZE) -g3
+
+SANITIZE = -fsanitize=address
+
+LDFLAGS = $(SANITIZE) -g3
 
 
 SRCs = get_next_line.c	\
@@ -21,9 +25,8 @@ all : $(NAME)
 $(NAME) : $(OBJs)
 	ar rcs $(NAME) $(OBJs)
 
-$.o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
+#$.o : %.c
+#	$(CC) $(CFLAGS) -c $< -o $@
 
 clean :
 	$(RM) $(OBJs)
@@ -32,5 +35,10 @@ clean :
 fclean : clean
 	$(RM) $(NAME)
 
+test:		all
+	$(CC) $(LDFLAGS) $(NAME) main.c
+
+run:		test
+	./a.out test.txt
 
 re : fclean all
