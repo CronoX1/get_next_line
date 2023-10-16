@@ -19,6 +19,5 @@ extern char *get_next_line(int fd);
 extern void	*ft_realloc(void *ptr, size_t newsize);
 extern void	*ft_memcpy(void *dest, const void *src, size_t n);
 extern int	ft_strlen(char *c);
-extern int  ft_strchr(const char *s, int c);
 
 #endif

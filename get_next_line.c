@@ -12,16 +12,6 @@
 
 #include "get_next_line.h"
 #include <stdio.h>
-#include <string.h>
-
-void print_content(char *content, size_t size)
-{
-    while (size--)
-    {
-        printf("%hhu - %c\n", *content, *content);
-        ++content;
-    }
-}
 
 void    clear_content(char *content)
 {
@@ -46,14 +36,11 @@ char    *check_content(char *content)
         if (content[i] == '\n')
         {
             result = malloc(sizeof(char) * (i + 1));
-            //printf("check_content %p", result);
             if (result == NULL)
                 return (NULL);
             result = ft_memcpy(result, content, i);
-            result[i] = '\0';
             clear_content(content);
- //           free(*content);
-            //content = NULL;
+            free(content);
             return (result);
         }
         i++;
@@ -67,32 +54,28 @@ char    *get_next_line(int fd)
     static char *content;
     int content_read;
     char    *line_break;
-    char    *start;
 
     if (content == NULL)
     {
-        content = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-        *content = '\0';
+        content = malloc(sizeof(char) * BUFFER_SIZE + 1);
+        content[BUFFER_SIZE] = '\0';
     }
     else
-        content = ft_realloc(content, (sizeof(char) * (ft_strlen(content) + BUFFER_SIZE + 1)));
-    start = content + ft_strlen(content);
-    content_read = read(fd, start, BUFFER_SIZE);
-    start[content_read] = '\0';
-    if (content_read == -1 || content == NULL)
-        return (NULL);
-    line_break = check_content(content);
-    if (content_read == 0)
     {
-        if (*content)
-        {
-            char *temp = content;
-            content = NULL;
-            return (temp);
-        }
-        return NULL;
+        content = ft_realloc(content, (sizeof(char) * (ft_strlen(content) + BUFFER_SIZE + 1)));
+        content[ft_strlen(content) + BUFFER_SIZE] = '\0';
     }
+    content_read = read(fd, &content[ft_strlen(content)], BUFFER_SIZE);
+    if (content_read == -1)
+        return (NULL);
+    else if (content_read == 0 || content == NULL)
+        return (content);
+    line_break = check_content(content);
     if (line_break == NULL)
-        return get_next_line(fd);
-    return (line_break);
+        return (get_next_line(fd));
+    else
+    {
+        return (line_break);
+    }
+    return (NULL);
 }

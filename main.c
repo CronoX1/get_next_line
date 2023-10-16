@@ -2,19 +2,14 @@
 #include "get_next_line.h"
 #include <fcntl.h>
 
-int main(int argc, char **argv)
+int main(void)
 {
-    if (argc != 2)
-        return 1;
-    int file = open(argv[1], O_RDONLY);
+    int file = open("file.txt", O_RDONLY);
     int i = 0;
 
-    char *data;
-
-    while ((data = get_next_line(file)))
+    while (i != 4)
     {
-        printf("La linea es:\n%s\n", data);
-        free(data);
+        printf("La linea es:\n%s\n", get_next_line(file));
         i++;
     }
     close(file);

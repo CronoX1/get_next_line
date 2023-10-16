@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-#include <string.h>
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
@@ -30,6 +28,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 		new_dest[i] = new_src[i];
 		++i;
 	}
+	new_dest[i] = '\0';
 	return (new_dest);
 }
 
@@ -42,8 +41,7 @@ void		*ft_realloc(void *ptr, size_t size)
 	if (!size)
 		return (ptr);
 	new_ptr = malloc(size);
-	ft_memcpy(new_ptr, ptr, ft_strlen(ptr));
-	((char *)new_ptr)[ft_strlen(ptr)] = '\0';
+	ft_memcpy(new_ptr, ptr, size);
 	return (new_ptr);
 }
 
@@ -55,13 +53,4 @@ int	ft_strlen(char *c)
 	while (c[i])
 		i++;
 	return (i);
-}
-
-int	ft_strchr(const char *s, int c)
-{
-	while (*s && *s != (char)c)
-		++s;
-	if (*s == (char)c)
-		return (1);
-	return (0);
 }
